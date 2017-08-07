@@ -1,0 +1,4 @@
+[submodule "ChineseCharacterRecognition"]
+	path = ChineseCharacterRecognition
+	url = https://github.com/kohuala/ChineseCharacterRecognition
+	branch = master
