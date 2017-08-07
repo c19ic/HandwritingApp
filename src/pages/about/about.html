@@ -13,13 +13,28 @@
     <img src="http://placehold.it/600x200?text=Item1">
   <ion-card-title>Flash Card 1</ion-card-title>
   </ion-card-content>
+ <ion-card class="fc-container" (click)="toggle()" [class.fc-back]="toggled" #fcContainer>
+    <div class="front" #front>
+        <ng-content class="" select=".fc-front"></ng-content>
+    </div>
+    <div class="back" #back>
+        <ng-content select=".fc-back"></ng-content>
+    </div>
 </ion-card>
+
 
 <ion-card id="flashcard2">
   <ion-card-content>
     <img src="http://placehold.it/600x200?text=Item2">
   <ion-card-title>Flash Card 2</ion-card-title>
   </ion-card-content>
+ <ion-card class="fc-container" (click)="toggle()" [class.fc-back]="toggled" #fcContainer>
+    <div class="front" #front>
+        <ng-content class="" select=".fc-front"></ng-content>
+    </div>
+    <div class="back" #back>
+        <ng-content select=".fc-back"></ng-content>
+    </div>
 </ion-card>
-
+  
 </ion-content>
