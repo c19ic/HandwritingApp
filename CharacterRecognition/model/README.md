@@ -1,5 +1,6 @@
 # Convolutional Neural Network Model
-As of August 8, program uses MNIST dataset as test dataset to train model
+As of August 8, program uses MNIST dataset as test dataset to train model.
+X datasets were not uploaded because they were too large.
 
 ## Usage
 0. Open new terminal
