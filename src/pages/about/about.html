@@ -8,33 +8,36 @@
 </ion-header>
 
 <ion-content padding>
-<ion-card id="flashcard1">
-  <ion-card-content [navPush] = "Flashcard1Page">
-    <img src="http://placehold.it/600x200?text=Item1">
-  <ion-card-title>Flash Card 1</ion-card-title>
+<ion-card (click) = "goToFlashcard1()">
+ <ion-card-content>
+  <img src="http://study.com/cimages/course-image/mtel-history-practice-study-guide_172249_large.jpg">
+  <div class="card-title">APUSH</div>
+  <div class="card-subtitle">41 Listings</div>
   </ion-card-content>
- <ion-card class="fc-container" (click)="toggle()" [class.fc-back]="toggled" #fcContainer>
-    <div class="front" #front>
-        <ng-content class="" select=".fc-front"></ng-content>
-    </div>
-    <div class="back" #back>
-        <ng-content select=".fc-back"></ng-content>
-    </div>
 </ion-card>
 
-
-<ion-card id="flashcard2">
-  <ion-card-content>
-    <img src="http://placehold.it/600x200?text=Item2">
-  <ion-card-title>Flash Card 2</ion-card-title>
+<ion-card (click) = "goToFlashcard1()">
+<ion-card-content>
+  <img src="http://www.openuniversity.edu/ISW/media/isw-media-library/misc/psychology-brain-jigsaw.jpg">
+  <div class="card-title">Psych</div>
+  <div class="card-subtitle">51 Listings</div>
   </ion-card-content>
- <ion-card class="fc-container" (click)="toggle()" [class.fc-back]="toggled" #fcContainer>
-    <div class="front" #front>
-        <ng-content class="" select=".fc-front"></ng-content>
-    </div>
-    <div class="back" #back>
-        <ng-content select=".fc-back"></ng-content>
-    </div>
 </ion-card>
-  
+
+<ion-card (click) = "goToFlashcard1()">
+<ion-card-content>
+  <img src="http://study.com/cimages/course-image/mtel-history-practice-study-guide_172249_large.jpg">
+  <div class="card-title">APUSH</div>
+  <div class="card-subtitle">31 Listings</div>
+  </ion-card-content>
+</ion-card>
+
+<ion-card (click) = "goToFlashcard1()">
+<ion-card-content>
+  <img src="http://www.openuniversity.edu/ISW/media/isw-media-library/misc/psychology-brain-jigsaw.jpg">
+  <div class="card-title">Psych</div>
+  <div class="card-subtitle">81 Listings</div>
+  </ion-card-content>
+</ion-card>
+
 </ion-content>
