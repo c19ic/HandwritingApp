@@ -1,4 +1,4 @@
-#from skimage.io import imread, imshow
+
 import scipy
 from skimage.color import rgb2gray 
 from scipy.misc import imread
@@ -7,7 +7,7 @@ import os, os.path
 
 
 def resize_and_normalize_image(img_list):  
-    ''' Resize and normalize each image within the image list
+    ''' img_read() helper function: Resize and normalize each image within the image list
     	Inputs: A list of images
     	Outputs: A list of grey scaled images in shape (input_list_length,1,28,28)
     '''
@@ -41,33 +41,56 @@ def resize_and_normalize_image(img_list):
 	
     modified_list = np.array(modified_list)
     modified_list = modified_list.reshape(len(img_list),1,28,28).astype('float32')
-    print(modified_list.shape)
     return modified_list
 
-
-# ======= For testing ====================================================
-
-output_images = []
-
-path = "./pics/"
-#path = raw_input("Input path to directory of images: ")
-valid_image = ".png"
-for f in os.listdir(path):
-    try:
-    	ext = os.path.splitext(f)[1]
-    	if ext.lower() not in valid_image:
-            continue
-    	img_path = os.path.join(path,f)	
-    except OSError, e:
-    	sys.exit()
-    img = imread(img_path)
-    #img = resize_and_normalize_image(img)
-    output_images.append(img)
+def read_imgs_in_folder(folder_path):
+	''' img_read() helper function: Read images in a folder.
+		Images can't be in a subfolder.
+		Input: path to folder with images to be read
+		Output: read images
+	'''
+	output_images = []
+	
+	path = folder_path
+	valid_image = ".png"
+	
+	for f in os.listdir(path):
+		try:
+			ext = os.path.splitext(f)[1]
+			if ext.lower() not in valid_image:
+				continue
+			img_path = os.path.join(path,f)	
+		except OSError, e:
+			sys.exit()
+		
+		img = imread(img_path)
+		output_images.append(img)
+	return output_images
     
-output_images = resize_and_normalize_image(output_images)
-    
-print(output_images)
-print("Image resize and normalize done") 
-#my_image = resize_and_normalize_image(my_image)
-#print("===Final============================================")
-#print(my_image)
+def img_read(folder_path, save_filename):
+	''' Reads in images from folder and resizes and normalizes them.
+		Saves normalized images as numpy array in data folder.
+		Input: folder path
+		Output: normalized images
+	'''
+	read_images = read_imgs_in_folder(folder_path)
+	norm_images = resize_and_normalize_image(read_images)
+	path = "./data/"
+	
+	if not os.path.exists(path):
+		os.makedirs(path)
+		
+	if(save_filename.lower().endswith('.npy')):
+		save_path = os.path.join(path, save_filename)
+		np.save(save_path, norm_images)
+		print("Saved %s at %s" % (save_filename, save_path))
+	else:
+		raise ValueError("Save filename does not end in .npy")
+		sys.exit()
+	
+	return norm_images
+
+## For testing	
+#img_read("./test_digit_pics/", "digit_pics.npy")
+
+print("Image resize and normalization done.")
