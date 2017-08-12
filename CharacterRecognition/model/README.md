@@ -1,29 +1,13 @@
 # Convolutional Neural Network Model
-As of August 8, program uses MNIST dataset as test dataset to train model.
-X datasets were not uploaded because they were too large.
-
-## Usage
-0. Open new terminal
-1. Copy folder to local directory
-2. cd into model folder
+As of August 12, program uses EMNIST dataset as test dataset to train model.
+## Issue: build model raises ValueError: Negative dimension size caused by subtracting 5 from 1 for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,28,28], [5,5,28,30].
 
 ## To rebuild model:
 run `$python build_model.py`
 
-### Model Inputs
-Image of a number (0-9) as a matrix with 1s and 0s.
-
-### Model Output
-Classification of image as a number (0-9).
-Each test and train datasets are saved as .npy files.
-Model is saved as .npy file.
-Accuracy is printed in terminal.
-
 ## To test predictions of model:
-run `$python predict_results.py`
+1. In terminal run `$open predict_results.py`
+2. At end of file, change function args (npy array to be loaded, save filename)
+3. run `$python predict_results.py`
 
-### File inputs
-Test dataset that was saved from running `$python build_model.py`
 
-### File outputs
-Predictions are printed in terminal and saved into predications.npy.
