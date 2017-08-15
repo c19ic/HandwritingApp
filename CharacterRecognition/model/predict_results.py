@@ -22,23 +22,30 @@ def predict_results (abs_path, save_filename):
 
 	# load model
 	print("Loading model......................")
-	model_path = "character_recognition_cnn.h5"
+	model_path = "character_recognition_cnn_v2.h5"
 	model = load_model(model_path)
 
+	chararr = [ '0','1','2','3','4','5','6','7','8','9',
+				'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+				'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' ]
 	# ~~~~~~~~~~~~~~~~ Predictions ~~~~~~~~~~~~~~~~
 	# calculate predictions
 	predictions = model.predict_classes(X_test)
-
+	char = []
+	for i in np.nditer(predictions):
+		print(chararr[i])
+		char.append(chararr[i])
 	print("\n")
+	
+	# outputs decimal code of character
 	print(predictions)
-	predictions.dtype = np.uint8
- 
-	# save predictions as npy file
-	np.save(save_filename + '.npy', predictions)
-	# save predictions as txt file
-	np.savetxt(save_filename + '.txt', predictions)
-
+	
+	# save predictions
+	with open(save_filename + '.txt', 'w') as outfile:
+		for i in char:
+			outfile.write(i)
+		
 	print('Done')
 
 ## For testing	
-#predict_results("./data/digit_pics.npy", "predictions")
+#predict_results("./data/test_digit_pics.npy", "predictions")
