@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import {NavController, ToastController, Platform} from 'ionic-angular';
-import { Camera} from 'ionic-native';
+import {NavController, ToastController, Platform, AlertController } from 'ionic-angular';
+import {Camera, CameraOptions} from '@ionic-native/camera';
 import { HTTP } from '@ionic-native/http';
-
+import { File } from '@ionic-native/file';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 
 
 declare var cordova: any;
@@ -15,46 +16,79 @@ declare var cordova: any;
 export class HomePage {
   public base64Image: string;
   private imageSrc: string;
-  private storage: Storage;
-  private http: HTTP;
 
-  constructor(public navCtrl: NavController){
-   }
+  constructor(public navCtrl: NavController, private camera: Camera, private http: HTTP, private alertCtrl: AlertController){}
 
 public openGallery (): void {
   let cameraOptions = {
-    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,  //get the image from gallery
-    destinationType: Camera.DestinationType.FILE_URI,   //return URI for image
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,  //get the image from gallery
+    destinationType: 1,   //return URI for image
     quality: 100,
     targetWidth: 1000,
     targetHeight: 1000,
-    encodingType: Camera.EncodingType.JPEG,             //return the image in JPEG format
+    encodingType: this.camera.EncodingType.JPEG,             //return the image in JPEG format
     correctOrientation: true
   }
 
-  Camera.getPicture(cameraOptions)
+  this.camera.getPicture(cameraOptions)
         .then(file_uri => this.imageSrc = file_uri,
                              err => console.log(err));
           }
 
-takePicture():void{
-    Camera.getPicture({
-        destinationType: Camera.DestinationType.NATIVE_URI,
-        sourceType: Camera.PictureSourceType.CAMERA,
+takePicture(): void{
+    const options: CameraOptions = {
+        destinationType: 1,
+        sourceType: this.camera.PictureSourceType.CAMERA,
         targetWidth: 1000,
         targetHeight: 1000,
         saveToPhotoAlbum: true,
-        encodingType: Camera.EncodingType.JPEG
-    }).then(
-        (imageData) => {
-          this.base64Image = "data:image/jpeg;base64," + imageData;
-    }, (err) => {
-        console.log(err)
-        });
-
-    this.http.post("http://18.220.97.255", this.base64Image, {})
-    }
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
     }
 
+		this.camera.getPicture(options).then((imagePath) => {
+			 // imageData is either a base64 encoded string or a file URI
+			 // If it's base64:
+			// let base64Image = 'data:image/jpeg;base64,' + imageData;
 
+			let alert = this.alertCtrl.create({
+				title: 'Picture taken:',
+				subTitle: imagePath,
+				buttons: ['Dismiss']
+			});
+			alert.present();
 
+			this.http.uploadFile('http://ec2-18-220-97-255.us-east-2.compute.amazonaws.com/uploads', {}, {}, imagePath, "file")
+			.then(data => {
+
+				console.log(data.status);
+				console.log(data.data); // data received by server
+				console.log(data.headers);
+
+				let alert = this.alertCtrl.create({
+					title: 'Success',
+					subTitle: data.data,
+					buttons: ['Dismiss']
+				});
+				alert.present();
+
+			})
+			.catch(error => {
+
+				console.log(error.status);
+				console.log(error.error); // error message as string
+				console.log(error.headers);
+
+				let alert = this.alertCtrl.create({
+					title: error.headers[1],
+					subTitle: error.error,
+					buttons: ['Ok']
+				});
+				alert.present();
+			});
+
+		}, (err) => {
+			// Handle error
+		});
+	}
+}
