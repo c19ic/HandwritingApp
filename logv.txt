@@ -1,0 +1,14 @@
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 295-720-410
+127.0.0.1 - - [14/Aug/2017 17:06:59] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [14/Aug/2017 17:07:00] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [14/Aug/2017 17:07:06] "POST / HTTP/1.0" 302 -
+127.0.0.1 - - [14/Aug/2017 17:07:06] "GET /uploads/insource.txt HTTP/1.0" 200 -
+127.0.0.1 - - [14/Aug/2017 17:07:41] "GET / HTTP/1.0" 200 -
+ * Detected change in '/home/ubuntu/HandwritingApp/retrieveinfo.py', reloading
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 295-720-410

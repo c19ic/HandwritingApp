@@ -6,14 +6,14 @@ wikipedia.set_rate_limiting(True)
 myflash={}
 pageerror=[]
 
-def inread():
-	with codecs.open('insource.txt', 'r', encoding="utf-8") as f:
+def inread(filename):
+	with codecs.open(filename, 'r', encoding="utf-8") as f:
 		for line in f:
-			line=re.sub('[\W]','',line)
+			line=re.sub('[^\s\w]','',line)
 			try:
 				term=str(wikipedia.page(line,auto_suggest=False)).encode('utf-8')
 				term=term[16:-2]
-				definition=str((wikipedia.summary(line)).encode('utf-8')).split('\n')
+				definition=str((wikipedia.summary(term)).encode('utf-8')).split('\n')
 				definition=definition[0]
 				if definition=='':
 					pageerror.append(line)
@@ -28,15 +28,17 @@ def inread():
 					definition+=(str(thing)+(' | '))
 				definition=definition.strip(' | ')
 				myflash[term]=definition
+	return (myflash)
 
 def out():
 	filler=''
 	for idx,term in enumerate(myflash):
-		filler+=('-'*30+'<br>'+term+'<br>'*2+myflash[term]+'<br>')
+		filler+=('-'*30+'\n'+term+'\n'+myflash[term]+'\n')
 	if len(pageerror)>0:
 		if len(myflash)>0:
-			filler+=('<br>')
-		filler+=('~'*30+'<br>'*2)
+			filler+=('\n')
+		filler+=('~'*30+'\n'*2)
 		for thing in pageerror:
-			filler+=(thing+'<br>')
+			filler+=(thing+'\n')
+	myflash.clear()
 	return (filler)
