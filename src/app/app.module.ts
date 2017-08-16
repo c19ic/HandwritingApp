@@ -17,7 +17,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 import {File} from '@ionic-native/file';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
-import {GlobalVars} from ‘./providers/globalVars‘;
 
 @NgModule({
   declarations: [
@@ -44,7 +43,6 @@ import {GlobalVars} from ‘./providers/globalVars‘;
     EditfilePage,
   ],
   providers: [
-    GlobalVars,
     StatusBar,
     SplashScreen,
     Camera,
